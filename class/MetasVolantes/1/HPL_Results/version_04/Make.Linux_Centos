@@ -1,4 +1,3 @@
-# STUFF
 #  
 #  -- High Performance Computing Linpack Benchmark (HPL)                
 #     HPL - 2.3 - December 2, 2018                          
@@ -180,7 +179,7 @@ HPL_DEFS     = $(F2CDEFS) $(HPL_OPTS) $(HPL_INCLUDES)
 CC       = mpiicc
 CCNOOPT  = $(HPL_DEFS)
 OMP_DEFS = -qopenmp
-CCFLAGS  = $(HPL_DEFS) -O3 -w -ansi-alias -i-static -z noexecstack -z relro -z now -nocompchk -Wall
+CCFLAGS  = $(HPL_DEFS) -xHost -O3 -Ofast -w -ansi-alias -i-static -z noexecstack -z relro -z now -nocompchk -Wall
 #
 # On some platforms,  it is necessary  to use the Fortran linker to find
 # the Fortran internals used in the BLAS library.
