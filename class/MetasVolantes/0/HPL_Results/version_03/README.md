@@ -1,0 +1,1 @@
+Configuración Base - Generada por HPL, pero intentando: con "mpirun -np 4 ./xhpl -hosts node01,node02"
