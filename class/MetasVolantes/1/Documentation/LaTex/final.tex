@@ -75,7 +75,7 @@ En este apartado se mostrará qué se ha usado para realizar estas pruebas.
 
 \begin{itemize}
     \item \textbf{HPL:} 2.3 \cite{1}.
-    \item \textbf{Sistema Operativo:} CentOS Linux 8 (Core) \(x86_64\).
+    \item \textbf{Sistema Operativo:} CentOS Linux 8 (Core) \( \times86_64\).
     \item \textbf{BLAS:} 3.10.0 \cite{2}.
     \item \textbf{MPI:} icc (ICC) 2021.2.0 20210228.
     \item \textbf{Compiler:} icc (ICC) 2021.2.0 20210228.
@@ -107,12 +107,12 @@ un alto impacto en el performace del mismo, especialmente 3 de estos que son:
     
     \item La matriz de procesos bidimencional (P X Q): El resultado del producto debe ser equivalente al total
     del número de procesos asignados en el parametro -n al ejecutar hpl. Como recomendación general se tendría
-    a P $<$ Q. Donde P debería de tomar el valor más pequeño que sea posible.
+    a P \(<\) Q. Donde P debería de tomar el valor más pequeño que sea posible.
 \end{enumerate}
 
-\subsection{Make.Linux_Centos}
+\subsection{Make.Linux\textunderscore Centos}
 
-En el archivo adjunto llamado \textit{Make.Linux_Centos} añadimos algunos \textit{flgas} como:
+En el archivo adjunto llamado \textit{Make.Linux\textunderscore Centos} añadimos algunos \textit{flgas} como:
 
 \begin{itemize}
     \item \textbf{-xHost}
