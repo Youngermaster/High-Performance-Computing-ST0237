@@ -65,7 +65,6 @@ En este apartado se mostrará qué se ha usado para realizar estas pruebas.
 
 \begin{itemize}
     \item \textbf{Cantidad de nodos:} 2.
-    \item \textbf{Sistema Operativo:} CentOS Linux 8 (Core) \(x86_64\).
     \item \textbf{Procesadores por nodo:} Intel Xeon E5-2670 0 (16) @ 2.989GHz.
     \item \textbf{Controlador Ethernet:} Intel Corporation I350 Gi-gabit Network Connection.
     \item \textbf{Memoria por nodo:} 16 x 4GB DIMM DDR3 1333MT/s.
@@ -76,21 +75,49 @@ En este apartado se mostrará qué se ha usado para realizar estas pruebas.
 \begin{itemize}
     \item \textbf{HPL:} 2.3 \cite{1}.
     \item \textbf{Sistema Operativo:} CentOS Linux 8 (Core) \(x86_64\).
-    \item \textbf{Procesadores por nodo:} Intel Xeon E5-2670 0 (16) @ 2.989GHz.
-    \item \textbf{Controlador Ethernet:} Intel Corporation I350 Gi-gabit Network Connection.
-    \item \textbf{Memoria por nodo:} 16 x 4GB DIMM DDR3 1333MT/s.
+    \item \textbf{BLAS:} 3.10.0 \cite{2}.
+    \item \textbf{MPI:} icc (ICC) 2021.2.0 20210228.
+    \item \textbf{Compiler:} icc (ICC) 2021.2.0 20210228.
+    \item \textbf{NFSv3}.
 \end{itemize}
 
+\section{HPL Heaven}
+La definición de que tenemos de este concepto abarca varios razonamientos
+que hace complicado dar una definición concreta de este mismo. De una forma 
+más acertada y general podríamos decir que "Heaven" hace referencia a el valor teórico 
+más optimo al que podríamos llegar; sin embargo, este valor en la práctica es imposible 
+de alcanzar por lo que siempre intentamos tener algo lo más cercano porsible a este mismo.
+
+\section{HPL Optimizations}
+
+\subsection{HPL.dat}
+Los valores de parametros que se encuentran definidos en \textit{HPL.dat} tiene
+un alto impacto en el performace del mismo, especialmente 3 de estos que son:
+
+\begin{enumerate}
+    \item El tamaño de la matriz de nuestro problema (N): Este valor debe seleccionarse basados
+    en el sistema de hardware y software que se tenga; Se debe decidir teniendo en cuenta la 
+    eficiencia computacional y la capacidad en memoria. A mayor el tamaño de la matriz, mayor 
+    serán los Flops.
+    
+    \item El tamaño del bloque (NB): Este valor es usualmente determinado por medio de experimentación.
+    Sin embargo, debe de ser cuidadosamente seleccionado para no ser ni muy grande ni muy pequeño, suelen 
+    ser números menores a 512 y normalmente multiplos de 64.
+    
+    \item La matriz de procesos bidimencional (P X Q): El resultado del producto debe ser equivalente al total
+    del número de procesos asignados en el parametro -n al ejecutar hpl. Como recomendación general se tendría
+    a P < Q. Donde P debería de tomar el valor más pequeño que sea posible.
+\end{enumerate}
+    
+
+    
 \section{Conclusion}
 
 Conclusión
 
 \begin{thebibliography}{00}
 \bibitem{1} J. D. A. C. P. L. Antoine Petitet, Clint Whaley, “Hpl 2.3 - aportable implementation of the high-performance linpack.” [Online]. Available at: http://www.netlib.org/benchmark/hpl/software.html.
-\bibitem{2} Chapra, S. and Canale, R., 2003. Numerical methods for engineers. Boston: McGraw-Hill.
-\bibitem{3}L. Dalcin, et al.,"Cython: The Best of Both Worlds" in Computing in Science  Engineering, vol. 13, no. 02, pp. 31-39, 2011.doi: 10.1109/MCSE2010.118
-\bibitem{4} A Brief Description - C++ Information", Cplusplus.com, 2021. [Online]. Available: https://www.cplusplus.com/info/description/.
-\bibitem{5} Python vs C++ Comparison: Compare Python vs C++ Speed and More", BitDegree.org Online Learning Platforms, 2021. [Online]. Available: https://www.bitdegree.org/tutorials/python-vs-c-plus-plus/.
+\bibitem{2} [Online]. Available at: http://www.netlib.org/blas/.
 \end{thebibliography}
 
 \end{document}
