@@ -50,14 +50,15 @@ nuestro cluster de 2 nodos en Cronos.
 HPC, HPL, MPI.
 \end{IEEEkeywords}
 
-\section{Introduction}
-La idea del proyecto es mostrar cómo logramos una eficiencia de \( X\% \).
+\section{Introducción}
+La idea del proyecto es mostrar cómo logramos una eficiencia de \( 45.28\% \) 
+\textbf{usando sólo 16 cores}.
 
-\section{Objectives}
-Lograr una eficiencia entre \( X\% \) y \( Y\% \) usando solo los 2 nodos de Cronos que tenemos
-a nuestra disposición.
+\section{Objetivos}
+Lograr una eficiencia entre \( 35\% \) y \( 45\% \) usando solo 16 cores y los 2 nodos de Cronos que 
+tenemos a nuestra disposición.
 
-\section{Execution environment}
+\section{Ambiente de ejecución}
 
 En este apartado se mostrará qué se ha usado para realizar estas pruebas.
 
@@ -88,7 +89,7 @@ más acertada y general podríamos decir que "Heaven" hace referencia a el valor
 más optimo al que podríamos llegar; sin embargo, este valor en la práctica es imposible 
 de alcanzar por lo que siempre intentamos tener algo lo más cercano porsible a este mismo.
 
-\section{HPL Optimizations}
+\section{Optimizaciones de HPL}
 
 \subsection{HPL.dat}
 Los valores de parametros que se encuentran definidos en \textit{HPL.dat} tiene
@@ -106,14 +107,63 @@ un alto impacto en el performace del mismo, especialmente 3 de estos que son:
     
     \item La matriz de procesos bidimencional (P X Q): El resultado del producto debe ser equivalente al total
     del número de procesos asignados en el parametro -n al ejecutar hpl. Como recomendación general se tendría
-    a P < Q. Donde P debería de tomar el valor más pequeño que sea posible.
+    a P $<$ Q. Donde P debería de tomar el valor más pequeño que sea posible.
 \end{enumerate}
-    
 
-    
-\section{Conclusion}
+\subsection{Make.Linux_Centos}
 
-Conclusión
+En el archivo adjunto llamado \textit{Make.Linux_Centos} añadimos algunos \textit{flgas} como:
+
+\begin{itemize}
+    \item \textbf{-xHost}
+    \item \textbf{-Ofast}
+    \item \textbf{-ansi-alias}
+    \item \textbf{-z noexecstack}
+\end{itemize}
+    
+\section{Dependencias}
+
+Se realizó intalación de:
+
+\begin{itemize}
+    \item \textbf{NFS (Network File System:)} Posibilita que distintos sistemas
+conectados a una misma red accedan a ficheros remotos como si 
+se tratara de locales.
+
+    \item \textbf{SLURM:} Es un sistema de programación de trabajos y administración
+    de clústeres de código abierto, tolerante a fallas y altamente escalable 
+    para clústeres de Linux grandes y pequeños.
+
+    \item \textbf{Infiniband:} Es un bus de comunicaciones serie de alta velocidad, 
+    baja latencia y de baja sobrecarga de CPU, diseñado tanto para 
+    conexiones internas como externas. Sus especificaciones son 
+    desarrolladas y mantenidas por la Infiniband Trade Association.
+
+    \item \textbf{MPI:} Es un estándar que define la sintaxis y la semántica de las 
+    funciones contenidas en una biblioteca de paso de mensajes diseñada 
+    para ser usada en programas que exploten la existencia de múltiples 
+    procesadores. Escritos generalmente C, C++, Fortran y Ada.
+
+    \item \textbf{BLAS:} Basic Linear Algebra Subprograms. Es una especificación que 
+    define un conjunto de rutinas de bajo nivel para realizar operaciones 
+    comunes de álgebra lineal tales como la suma de vectores, multiplicación 
+    escalar, producto escalar, combinaciones lineales y multiplicación de matrices.
+
+    \item \textbf{HPL:} is a High-Performance Linpack benchmark implementation. The code solves a 
+    uniformely random system of  linear equations and reports time and floating-point 
+    execution rate using a standard formula for operation count.
+
+\end{itemize}
+    
+\section{Resultados}
+
+Para nuestro sistema, tenemos el siguiente \(R_{peak}\):
+
+\[ R_{peak} = 2 \times 2 \times 8 \times 2.6 \times 10^9 \times 8 = 665.6 \; GFLOP/s \]
+
+Usando solo \textbf{ 16 \textit{cores}} logramos \( 3.0145e+02 \) Gflops, por lo que nuestra eficiencia fue de:
+
+\[ Eficiencia = \frac{301.45}{665.6} * 100\% = 45.2899639423 \% \]
 
 \begin{thebibliography}{00}
 \bibitem{1} J. D. A. C. P. L. Antoine Petitet, Clint Whaley, “Hpl 2.3 - aportable implementation of the high-performance linpack.” [Online]. Available at: http://www.netlib.org/benchmark/hpl/software.html.
