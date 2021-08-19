@@ -3,12 +3,12 @@ HPLinpack benchmark input file
 HPL.out      output file name (if any)
 file         device out (6=stdout,7=stderr,file)
 1            # of problems sizes (N)
-40000        Ns
+80000        Ns
 1            # of NBs
 128          NBs
 0            PMAP process mapping (0=Row-,1=Column-major)
 1            # of process grids (P x Q)
-2            Ps
+4            Ps
 8            Qs
 16.0         threshold
 1            # of panel fact
