@@ -1,0 +1,65 @@
+---
+- name: "Install Infiniband Packages"
+  dnf:
+    name:
+      - libibverbs-utils
+      - librdmacm
+      - infiniband-diags
+    enablerepo: base
+    state: present
+    update_cache: yes
+  register: infiniband_installed
+
+- name: Place mlx4.conf (Increase allowed memory for HCA)
+  copy:
+    src: etc/modprobe.d/mlx4.conf
+    dest: /etc/modprobe.d/mlx4.conf
+
+- name: "Reboot the server and wait for it to come back up."
+  reboot:
+  when: restart == 'yes' and infiniband_installed.changed and ansible_hostname !=  master_hostname
+
+- name: "Get MAC ib0 - NFS"
+  shell: |
+    ip addr | grep -A 2 ib0 | grep 'link/infiniband' | awk '{print $2}'
+  register: mac_ib_nfs
+
+- name: "Check ib0 connection - NFS"
+  command: nmcli con show ib0
+  register: nfs_connection
+  check_mode: no
+  ignore_errors: yes
+  changed_when: no
+
+- name: Configure ib0 - NFS
+  shell: |
+    nmcli con add type infiniband con-name ib0 ifname ib0 transport-mode connected mtu 65520  infiniband.mac-address {{ mac_ib_nfs.stdout }} ipv4.method static ipv4.addresses {{ ip_ib_nfs }} ipv4.gateway {{ master_ip_nfs }}
+  when: nfs_connection.rc != 0
+
+- name: "Get MAC ib1 - MPI"
+  shell: |
+    ip addr | grep -A 2 ib1 | grep 'link/infiniband' | awk '{print $2}'
+  register: mac_ib_mpi
+  when: env == 'production'
+
+- name: "Check ib1 connection - MPI"
+  command: nmcli con show ib1
+  register: mpi_connection
+  check_mode: no
+  ignore_errors: yes
+  changed_when: no
+
+- name: Configure ib1 - MPI
+  shell: |
+    nmcli con add type infiniband con-name ib0 ifname ib0 transport-mode connected mtu 65520  infiniband.mac-address {{ mac_ib_mpi.stdout }} ipv4.method static ipv4.addresses {{ ip_ib_mpi }} ipv4.gateway {{ master_ip_mpi }}
+  when: mpi_connection.rc != 0 and env == 'production'
+  # TODO: Migrate to NetworkManager
+#- name: Connect mode Activated in ib0
+#  lineinfile:
+#    path: "/etc/sysconfig/network-scripts/ifcfg-ib0"
+#    line: "{{ item }}"
+#  with_items:
+#    - "CONNECTED_MODE=yes"
+#    - "MTU=62520"
+#  tags:
+#    - infiniband
